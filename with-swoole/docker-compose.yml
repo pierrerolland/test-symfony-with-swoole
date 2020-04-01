@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  mysql:
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    user: ${LOCAL_USER}
+    volumes:
+      - './apps/skeleton/:/usr/src/app'
+    ports:
+      - ${SWOOLE_PORT}:9501

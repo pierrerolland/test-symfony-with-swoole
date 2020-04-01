@@ -1,0 +1,28 @@
+config:
+  target: "http://localhost"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 50
+      #- duration: 120
+      #arrivalRate: 5
+      #rampTo: 50
+      #- duration: 600
+      #arrivalRate: 50
+scenarios:
+  - name: "Create, read and list"
+    flow:
+      - post:
+          url: "/users"
+          formData:
+            email: "test@example.net"
+          capture:
+            json: "$.id"
+            as: "id"
+      - think: 3      
+      - get:
+          url: "/users/{{ id }}"
+          #- think: 3
+        #- get:
+        # url: "/users"
+
